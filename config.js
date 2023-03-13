@@ -170,3 +170,20 @@ export const STATE = {
     itemToMove:{
     }
 }
+
+export const isScroll = () => {
+    let body = document.body, html = document.documentElement;
+
+    let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+    let winHeight = window.innerHeight;
+
+    if (docHeight < winHeight){
+        return null;
+    }
+    
+    return {
+        value:docHeight - winHeight
+    }
+  
+}

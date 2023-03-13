@@ -15,7 +15,6 @@ class SlotDataList {
         
         const { destiny:OPDestiny, slot, currentSlot,data, label, quantity} =  options;
 
-        
         let destiny = !OPDestiny ? this.list : OPDestiny;
 
         if(slot)
@@ -82,7 +81,6 @@ class SlotDataList {
                 }
                 else if(!Object.keys(STATE[destiny][chestKeys[i]]).length && quantity )
                 {
-
                     // console.warn("Está vazio! e move de quantidade em quantidade");
                     data.quantity = quantity;
                     STATE[destiny][chestKeys[i]] = data;
@@ -94,7 +92,7 @@ class SlotDataList {
             }
         }
 
-        console.log(STATE);
+        // console.log(STATE);
     }
 
     moveSlot = (options)=>{
