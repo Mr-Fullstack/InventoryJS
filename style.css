@@ -140,6 +140,7 @@ section
     display: flex;
     flex-wrap: wrap;
     border: 1px solid var(--slot-border);
+    min-height: 130px;
 }
 
 #chest
