@@ -1,5 +1,5 @@
 
-class ObservableSlot {
+class HtmlObservableSlot {
 
     constructor() {
       this.observers = [];
@@ -10,9 +10,11 @@ class ObservableSlot {
     unsubscribe(f) {
       this.observers = this.observers.filter(subscriber => subscriber !== f);
     }
-    notify(origin,data,slot) {
-      this.observers.forEach(observer => observer(origin,data,slot));
+    update(payloads) {
+      payloads.forEach((payload)=>{
+        this.observers.forEach(observer => observer(payload));
+      })
     }
 }
 
-export default ObservableSlot;
+export default HtmlObservableSlot;

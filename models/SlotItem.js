@@ -1,7 +1,5 @@
-import { isScroll, OBSERVER, STATE } from '../config.js';
-import { chest, inventory } from '../main.js';
+import { isScroll, containers } from '../config.js';
 import ItemDetail from './ItemDetail.js';
-import ItemToMove from './ItemToMove.js';
 
 class SlotItem {
 
@@ -13,19 +11,18 @@ class SlotItem {
     previewActive;
     preview;
     pressedCount=0;
-    grandfather;
+    container;
     currentSlot;
 
     constructor(options)
     {   
-        const { data, slot, parentId }= options; 
+        const { data, slot, container }= options; 
 
         this.figure = document.createElement('figure');
        
         if(data){
-            
-            this.img = document.createElement('img');
 
+            this.img = document.createElement('img');
             this.img.src = data.src;
             this.figure.appendChild(this.img);
             if(data.quantity > 1){
@@ -34,11 +31,11 @@ class SlotItem {
                 this.quantity.innerText = data.quantity;
                 this.figure.appendChild(this.quantity);
             }
-            this.details = new ItemDetail (data.details).render();
+            this.details = new ItemDetail(data.details).render();
             this.label = data.label
         }
         this.currentSlot = slot;
-        this.grandfather = parentId;
+        this.container = container;
 
         this.figure.addEventListener('mouseenter',(evt)=> {
           
@@ -63,50 +60,40 @@ class SlotItem {
             e.preventDefault();
             
             const options = {
-                destiny:"",
+                nextContainer:this.getCorrectContainer(this.container),
                 label:this.label,
                 currentSlot : this.currentSlot,
                 quantity:1,
             }
 
-            if(this.grandfather == 'inventory')
-            {
-                options.destiny = "chestItems";
-                inventory.moveSlot(options);
-            }
-            else if(this.grandfather == 'chest')
-            {
-                options.destiny = "inventoryItems";
-                chest.moveSlot(options);
-            }
+            this.moveSlot(options);
 
         })
 
         this.figure.addEventListener('click',(e)=> {
-            
             const options = {
-                destiny:"",
+                nextContainer:this.getCorrectContainer(this.container),
                 label:this.label,
                 currentSlot : this.currentSlot
             }
-            
-            if(this.grandfather == 'inventory')
-            {
-                options.destiny = "chestItems";
-                inventory.moveSlot(options);
-            }
-            else if(this.grandfather == 'chest')
-            {
-                options.destiny = "inventoryItems";
-                chest.moveSlot(options);
-            }
+            this.moveSlot(options);
         })
     }
 
+    getCorrectContainer = (currentContainer)=> {
+        const invertContainers= {
+            chest:'inventory',
+            inventory:'chest'
+        }
+        return invertContainers[currentContainer]
+    }
+
+    moveSlot = (options)=> containers[this.container].moveSlot(options);
+    
     movePreview=(evt)=>{
 
-        let mainOffsetLeft =  Math.round(Math.abs( this.figure.getBoundingClientRect().width - this.figure.getBoundingClientRect().left) );
-        let mainOffsetTop  =  Math.round(Math.abs( this.figure.getBoundingClientRect().height - this.figure.getBoundingClientRect().top) );
+        let mainOffsetLeft = Math.round(Math.abs( this.figure.getBoundingClientRect().width - this.figure.getBoundingClientRect().left) );
+        let mainOffsetTop  = Math.round(Math.abs( this.figure.getBoundingClientRect().height - this.figure.getBoundingClientRect().top) );
        
         this.preview = this.figure.querySelector('.slot-preview');
         this.preview.style.left = `${ evt.clientX - mainOffsetLeft }px`;
@@ -116,10 +103,7 @@ class SlotItem {
     moveDetail = (evt)=>{
 
         this.details =  this.figure.querySelector('.item-detail');
-        // let mainOffsetLeft =  Math.round(Math.abs( this.figure.getBoundingClientRect().width - this.figure.getBoundingClientRect().left) ) ;
-        // let mainOffsetTop  =  Math.round(Math.abs( this.figure.getBoundingClientRect().height - this.figure.getBoundingClientRect().top) ) ;
-        let mainOffsetLeft =  Math.round(Math.abs( this.details.getBoundingClientRect().width - this.details.getBoundingClientRect().left) ) ;
-        let mainOffsetTop  =  Math.round(Math.abs( this.details.getBoundingClientRect().height - this.details.getBoundingClientRect().top) ) ;
+
         if(this.previewActive)
         {
             this.movePreview(evt);
@@ -135,8 +119,8 @@ class SlotItem {
             offsetFixLeft+=20;
         }
 
-        this.details.style.left = `${ (evt.clientX ) + offsetFixLeft}px`;
-        this.details.style.top = `${(evt.clientY ) + offsetFixTop }px`;
+        this.details.style.left = `${ evt.clientX  + offsetFixLeft}px`;
+        this.details.style.top = `${evt.clientY  + offsetFixTop }px`;
        
     }
     render = () => this.figure;
