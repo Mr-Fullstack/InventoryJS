@@ -3,17 +3,6 @@ import ItemDetail from './ItemDetail.js';
 
 class SlotItem {
 
-    img;
-    quantity;
-    figure;
-    details;
-    label;
-    previewActive;
-    preview;
-    pressedCount=0;
-    container;
-    currentSlot;
-
     constructor(options)
     {   
         const { data, slot, container }= options; 
@@ -80,7 +69,7 @@ class SlotItem {
         })
     }
 
-    getCorrectContainer = (currentContainer)=> {
+    getCorrectContainer = (currentContainer)  => {
         const invertContainers= {
             chest:'inventory',
             inventory:'chest'
@@ -88,9 +77,9 @@ class SlotItem {
         return invertContainers[currentContainer]
     }
 
-    moveSlot = (options)=> containers[this.container].moveSlot(options);
-    
-    movePreview=(evt)=>{
+    moveSlot = (options) => containers[this.container].moveSlot(options); 
+
+    movePreview = (evt)=> {
 
         let mainOffsetLeft = Math.round(Math.abs( this.figure.getBoundingClientRect().width - this.figure.getBoundingClientRect().left) );
         let mainOffsetTop  = Math.round(Math.abs( this.figure.getBoundingClientRect().height - this.figure.getBoundingClientRect().top) );
@@ -100,7 +89,7 @@ class SlotItem {
         this.preview.style.top = `${  evt.clientY - mainOffsetTop }px`;
     }
 
-    moveDetail = (evt)=>{
+    moveDetail = (evt)=> {
 
         this.details =  this.figure.querySelector('.item-detail');
 
@@ -115,7 +104,7 @@ class SlotItem {
         let hasScroll = isScroll();
         
         if(hasScroll.value){
-            offsetFixTop-=25;
+            offsetFixTop-=10;
             offsetFixLeft+=20;
         }
 

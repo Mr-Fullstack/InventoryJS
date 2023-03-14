@@ -1,7 +1,6 @@
 
 import { chest, HtmlObserverSlot, inventory } from './config.js';
 
-
 export const App = {
 
     init : ()=> { 

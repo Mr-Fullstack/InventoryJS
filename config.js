@@ -1,5 +1,6 @@
 import HtmlObservableSlot from "./models/HtmlObservableSlot.js";
 import Container from "./models/Container.js";
+import State from "./models/State.js";
 
 export const chestHTML = document.getElementById("chest");
 export const inventoryHTML = document.getElementById("inventory");
@@ -14,8 +15,7 @@ export const containers= {
 
 export const HtmlObserverSlot = new HtmlObservableSlot();
 
-export const STATE = {
-    prepareMovimentItem:false,
+export const state = new State({
     chest:{
         "slot-1":{
          
@@ -351,9 +351,8 @@ export const STATE = {
             }
         }
     },
-    itemToMove:{
-    }
-}
+});
+
 
 export const isScroll = () => {
     let body = document.body, html = document.documentElement;
