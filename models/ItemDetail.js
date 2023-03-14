@@ -34,6 +34,7 @@ class ItemDetail {
         this.detail.appendChild(this.header);
         this.body.appendChild(this.description);
         this.detail.appendChild(this.body);
+       
     }
     render = () => this.detail;
 }

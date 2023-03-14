@@ -27,9 +27,10 @@ class SlotItem {
         this.container = container;
 
         this.figure.addEventListener('mouseenter',(evt)=> {
-          
-             this.details.style.left = this.figure.getBoundingClientRect().left;
-             this.details.style.top = this.figure.getBoundingClientRect().top;
+            
+            this.details.style.left = this.figure.getBoundingClientRect().left;
+            this.details.style.top = this.figure.getBoundingClientRect().top;
+             
             if(data){
                 this.figure.appendChild(this.details);
                 this.figure.addEventListener("mousemove",this.moveDetail);
@@ -99,17 +100,31 @@ class SlotItem {
         }
        
         let offsetFixLeft = 20;
-        let offsetFixTop = 25
+        let offsetFixTop = 25;
+            
+        let getPorcentage = (value,porcentage) => (value / 100) * porcentage
 
-        let hasScroll = isScroll();
-        
-        if(hasScroll.value){
-            offsetFixTop-=10;
-            offsetFixLeft+=20;
+        if(evt.clientY > getPorcentage(window.innerHeight,75) ){
+            console.log(window.innerWidth  - (window.innerWidth - evt.clientX))
+
+            offsetFixTop =  window.innerHeight - evt.clientY + 80;
+            this.details.style.top =  `${ evt.clientY  - offsetFixTop}px`;   
+        }
+        else
+        {
+            this.details.style.top = `${evt.clientY + offsetFixTop }px`;
+            this.details.style.left = `${ evt.clientX + offsetFixLeft }px`;
         }
 
-        this.details.style.left = `${ evt.clientX  + offsetFixLeft}px`;
-        this.details.style.top = `${evt.clientY  + offsetFixTop }px`;
+        if(evt.clientX > getPorcentage(window.innerWidth,65)){
+            offsetFixLeft = window.innerWidth  - (window.innerWidth - evt.clientX);
+            this.details.style.left = `${ evt.clientX - this.details.getBoundingClientRect().width - 35 }px`;
+        }
+        else
+        {
+            this.details.style.left = `${ evt.clientX + offsetFixLeft }px`;
+        }
+        
        
     }
     render = () => this.figure;

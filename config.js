@@ -361,10 +361,6 @@ export const isScroll = () => {
 
     let winHeight = window.innerHeight;
 
-    if (docHeight < winHeight){
-        return null;
-    }
-    
     return {
         value:docHeight - winHeight
     }
