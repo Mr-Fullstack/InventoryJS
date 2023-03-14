@@ -104,9 +104,8 @@ class SlotItem {
             
         let getPorcentage = (value,porcentage) => (value / 100) * porcentage
 
-        if(evt.clientY > getPorcentage(window.innerHeight,85) ){
+        if(evt.clientY > getPorcentage(window.innerHeight,80) ){
             console.log(window.innerWidth  - (window.innerWidth - evt.clientX))
-
             offsetFixTop =  window.innerHeight - evt.clientY + 80;
             this.details.style.top =  `${ evt.clientY  - offsetFixTop}px`;   
         }
